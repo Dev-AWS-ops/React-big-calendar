@@ -7,6 +7,7 @@ type View,
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS }from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./App.css";
 
 // Setup localizer
 const locales = {
