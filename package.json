@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "homepage": "https://naveen.github.io/react-big-calendar",
+    "homepage": "https://dev-aws-ops.github.io/React-big-calendar/",
     "predeploy": "npm run build",
   "deploy": "gh-pages -d dist"
   },
