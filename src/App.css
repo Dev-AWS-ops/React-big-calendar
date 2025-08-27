@@ -1,0 +1,76 @@
+/* Layout: 90% of screen */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.calendar-wrapper {
+  width: 90vw;
+  height: 90vh;
+}
+
+.rbc-calendar {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* Remove hover highlight inside calendar */
+.rbc-day-bg:hover,
+.rbc-slot-selection {
+  background: none !important;
+}
+
+/* ---------------- Header Buttons ---------------- */
+
+/* Default buttons */
+.rbc-toolbar button {
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  transition: all 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin: 0 2px;
+}
+
+/* Today, Back, Next buttons (first group) */
+.rbc-btn-group:first-child button:nth-child(1) {
+  background-color: purple !important; /* Today */
+  color: white !important;
+}
+.rbc-btn-group:first-child button:nth-child(2) {
+  background-color: green !important; /* Back */
+  color: white !important;
+}
+.rbc-btn-group:first-child button:nth-child(3) {
+  background-color: red !important; /* Next */
+  color: white !important;
+}
+
+/* View Switcher Buttons (Month/Week/Day/Agenda) */
+.rbc-btn-group:last-child button:nth-child(1) {
+  background-color: blue !important;   /* Month */
+  color: white !important;
+}
+.rbc-btn-group:last-child button:nth-child(2) {
+  background-color: orange !important; /* Week */
+  color: white !important;
+}
+.rbc-btn-group:last-child button:nth-child(3) {
+  background-color: yellow !important; /* Day */
+  color: black !important;
+}
+.rbc-btn-group:last-child button:nth-child(4) {
+  background-color: pink !important;   /* Agenda */
+  color: black !important;
+}
