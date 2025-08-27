@@ -2,8 +2,7 @@ import { useState } from "react";
 import {
   Calendar,
   dateFnsLocalizer,
-  Views,
-  type View,
+type View,
 } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS }from "date-fns/locale/en-US";
