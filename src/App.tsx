@@ -21,30 +21,54 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-// Example events (2 meetings only)
 const events = [
   {
+    title: "Project Sync",
+    start: new Date(2025, 7, 5, 11, 0), 
+    end: new Date(2025, 7, 5, 12, 0),
+  },
+  {
+    title: "Brainstorm Workshop",
+    start: new Date(2025, 7, 12, 14, 0), 
+    end: new Date(2025, 7, 12, 15, 30),
+  },
+  {
     title: "Team Meeting",
-    start: new Date(2025, 7, 25, 10, 0), // Aug 25, 2025 10:00
+    start: new Date(2025, 7, 25, 10, 0),
     end: new Date(2025, 7, 25, 11, 0),
   },
   {
     title: "Client Call",
-    start: new Date(2025, 7, 27, 14, 0), // Aug 27, 2025 2:00 PM
+    start: new Date(2025, 7, 27, 14, 0),
     end: new Date(2025, 7, 27, 15, 0),
+  },
+  {
+    title: "Project Kickoff",
+    start: new Date(2025, 8, 5, 9, 30),
+    end: new Date(2025, 8, 5, 11, 0),
+  },
+  {
+    title: "Design Review",
+    start: new Date(2025, 9, 12, 15, 0),
+    end: new Date(2025, 9, 12, 16, 30),
+  },
+  {
+    title: "Year-End Planning",
+    start: new Date(2025, 11, 3, 13, 0),
+    end: new Date(2025, 11, 3, 14, 30),
   },
 ];
 
 export default function App() {
-  const [view, setView] = useState<View>("month"); // ✅ fixed type
+  const [view, setView] = useState<View>("month"); 
   const [date, setDate] = useState(new Date());
 
   return (
     <div
       style={{
-        height: "90vh", // 90% of screen height
-        width: "90vw",  // 90% of screen width
-        margin: "auto", // center
+        height: "90vh",
+        width: "90vw",
+        margin: "auto",
         background: "white",
         padding: "10px",
         boxSizing: "border-box",
