@@ -2,10 +2,11 @@ import { useCallback, useMemo, useState } from "react";
 import {
   Calendar,
   dateFnsLocalizer,
-  Views,
   type DateLocalizer,
   type Event as RBCEvent,
 } from "react-big-calendar";
+import { Views, type View } from "react-big-calendar";
+
 import withDragAndDrop, {
   type withDragAndDropProps,
 } from "react-big-calendar/lib/addons/dragAndDrop";
@@ -60,7 +61,8 @@ const initialEvents: CalendarEvent[] = [
 const DnDCalendar = withDragAndDrop<CalendarEvent, withDragAndDropProps<CalendarEvent>>(Calendar as any);
 
 export default function App() {
-  const [view, setView] = useState(Views.WEEK);
+  const [view, setView] = useState<View>(Views.WEEK);
+
   const [date, setDate] = useState(new Date(2025, 8, 8));
   const [events, setEvents] = useState(initialEvents);
   const [activeCategories, setActiveCategories] = useState<string[]>(Object.keys(categories));
@@ -76,17 +78,34 @@ export default function App() {
     );
   };
 
-  const moveEvent: withDragAndDropProps<CalendarEvent>["onEventDrop"] = ({ event, start, end }) => {
-    setEvents((prev) =>
-      prev.map((e) => (e.id === event.id ? { ...e, start, end } : e))
-    );
-  };
+const moveEvent: withDragAndDropProps<CalendarEvent>["onEventDrop"] = ({ event, start, end }) => {
+  setEvents((prev) =>
+    prev.map((e) =>
+      e.id === event.id
+        ? ({
+            ...e,
+            start: start as Date, // ensure Date type
+            end: end as Date,
+          } as CalendarEvent)
+        : e
+    )
+  );
+};
 
-  const resizeEvent: withDragAndDropProps<CalendarEvent>["onEventResize"] = ({ event, start, end }) => {
-    setEvents((prev) =>
-      prev.map((e) => (e.id === event.id ? { ...e, start, end } : e))
-    );
-  };
+const resizeEvent: withDragAndDropProps<CalendarEvent>["onEventResize"] = ({ event, start, end }) => {
+  setEvents((prev) =>
+    prev.map((e) =>
+      e.id === event.id
+        ? ({
+            ...e,
+            start: start as Date,
+            end: end as Date,
+          } as CalendarEvent)
+        : e
+    )
+  );
+};
+
 
   const eventStyleGetter = useCallback(
     (event: CalendarEvent) => {
