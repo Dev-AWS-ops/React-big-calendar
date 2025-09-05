@@ -6,8 +6,6 @@ import {
   type DateLocalizer,
   type Event as RBCEvent,
 } from "react-big-calendar";
-import type { Locale } from "date-fns";
-import type { View } from "react-big-calendar";
 import withDragAndDrop, {
   type withDragAndDropProps,
 } from "react-big-calendar/lib/addons/dragAndDrop";
@@ -18,7 +16,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "./App.css";
 
-const locales: Record<string, Locale> = { "en-US": enUS };
+const locales = { "en-US": enUS };
 const localizer: DateLocalizer = dateFnsLocalizer({
   format,
   parse,
@@ -32,136 +30,122 @@ export type CalendarEvent = RBCEvent & {
   title: string;
   start: Date;
   end: Date;
-  allDay?: boolean;
-  resource?: any;
+  category: string;
+};
+
+const categories: Record<string, { bg: string; strip: string }> = {
+  Hotel: { bg: "#e8f5e9", strip: "#2e7d32" },    // light green + dark green
+  Client: { bg: "#e3f2fd", strip: "#1565c0" },  // light blue + dark blue
+  Internal: { bg: "#fff3e0", strip: "#ef6c00" } // light orange + dark orange
 };
 
 const initialEvents: CalendarEvent[] = [
-  {
-    id: 1,
-    title: "Project Sync",
-    start: new Date(2025, 7, 5, 11, 0),
-    end: new Date(2025, 7, 5, 12, 0),
-  },
-  {
-    id: 2,
-    title: "Brainstorm Workshop",
-    start: new Date(2025, 7, 12, 14, 0),
-    end: new Date(2025, 7, 12, 15, 30),
-  },
-  {
-    id: 3,
-    title: "Team Meeting",
-    start: new Date(2025, 7, 25, 10, 0),
-    end: new Date(2025, 7, 25, 11, 0),
-  },
-  {
-    id: 4,
-    title: "Client Call",
-    start: new Date(2025, 7, 27, 14, 0),
-    end: new Date(2025, 7, 27, 15, 0),
-  },
-  {
-    id: 5,
-    title: "Project Kickoff",
-    start: new Date(2025, 8, 5, 9, 30),
-    end: new Date(2025, 8, 5, 11, 0),
-  },
-  {
-    id: 6,
-    title: "Design Review",
-    start: new Date(2025, 9, 12, 15, 0),
-    end: new Date(2025, 9, 12, 16, 30),
-  },
-  {
-    id: 7,
-    title: "Year-End Planning",
-    start: new Date(2025, 11, 3, 13, 0),
-    end: new Date(2025, 11, 3, 14, 30),
-  },
+  { id: 1, title: "Hotel Booking Review", start: new Date(2025, 8, 9, 18), end: new Date(2025, 8, 9, 20), category: "Hotel" },
+  { id: 2, title: "Hotel Partner Call", start: new Date(2025, 8, 9, 14), end: new Date(2025, 8, 9, 15), category: "Hotel" },
+  { id: 3, title: "Client Presentation", start: new Date(2025, 8, 10, 15), end: new Date(2025, 8, 10, 16), category: "Client" },
+  { id: 4, title: "Client Feedback Call", start: new Date(2025, 8, 11, 16), end: new Date(2025, 8, 11, 17), category: "Client" },
+  { id: 5, title: "Team Sync", start: new Date(2025, 8, 12, 10), end: new Date(2025, 8, 12, 11), category: "Internal" },
+  { id: 6, title: "Product Roadmap", start: new Date(2025, 8, 13, 13), end: new Date(2025, 8, 13, 15), category: "Internal" },
+
+  // Long day events
+  { id: 7, title: "Breakfast Meeting", start: new Date(2025, 8, 8, 9), end: new Date(2025, 8, 8, 12), category: "Internal" },
+  { id: 8, title: "Lunch & Learn", start: new Date(2025, 8, 8, 12), end: new Date(2025, 8, 8, 14), category: "Client" },
+  { id: 9, title: "Strategy Session", start: new Date(2025, 8, 8, 14), end: new Date(2025, 8, 8, 18), category: "Hotel" },
+
+  // Multi-day events
+  { id: 10, title: "Client Summit", start: new Date(2025, 8, 15, 9), end: new Date(2025, 8, 19, 17), category: "Client" },
+  { id: 11, title: "Internal Training Week", start: new Date(2025, 8, 22, 9), end: new Date(2025, 8, 26, 17), category: "Internal" },
 ];
 
 const DnDCalendar = withDragAndDrop<CalendarEvent, withDragAndDropProps<CalendarEvent>>(Calendar as any);
 
 export default function App() {
-  const [view, setView] = useState<View>(Views.MONTH as View);
+  const [view, setView] = useState(Views.WEEK);
+  const [date, setDate] = useState(new Date(2025, 8, 8));
+  const [events, setEvents] = useState(initialEvents);
+  const [activeCategories, setActiveCategories] = useState<string[]>(Object.keys(categories));
 
-  const [date, setDate] = useState(new Date());
-  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
+  const filteredEvents = useMemo(
+    () => events.filter((e) => activeCategories.includes(e.category)),
+    [events, activeCategories]
+  );
 
-  const handleSelectSlot = useCallback((slotInfo: any) => {
-    const title = window.prompt("New event title?");
-    if (!title) return;
-
-    const newEvent: CalendarEvent = {
-      id: Math.random().toString(36).slice(2),
-      title,
-      start: slotInfo.start,
-      end: slotInfo.end,
-      allDay: slotInfo.action === "select" && view === Views.MONTH ? true : false,
-    };
-    setEvents((prev) => [...prev, newEvent]);
-  }, [view]);
-
-  const handleEventDrop = useCallback((data: any) => {
-    const { event, start, end, isAllDay } = data;
-    setEvents((prev) =>
-      prev.map((ev) =>
-        ev.id === event.id
-          ? { ...ev, start, end, allDay: isAllDay ?? ev.allDay }
-          : ev
-      )
+  const toggleCategory = (category: string) => {
+    setActiveCategories((prev) =>
+      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
     );
-  }, []);
+  };
 
-  const handleEventResize = useCallback((data: any) => {
-    const { event, start, end } = data;
+  const moveEvent: withDragAndDropProps<CalendarEvent>["onEventDrop"] = ({ event, start, end }) => {
     setEvents((prev) =>
-      prev.map((ev) => (ev.id === event.id ? { ...ev, start, end } : ev))
+      prev.map((e) => (e.id === event.id ? { ...e, start, end } : e))
     );
-  }, []);
+  };
 
-  const components = useMemo(() => ({
-  }), []);
+  const resizeEvent: withDragAndDropProps<CalendarEvent>["onEventResize"] = ({ event, start, end }) => {
+    setEvents((prev) =>
+      prev.map((e) => (e.id === event.id ? { ...e, start, end } : e))
+    );
+  };
+
+  const eventStyleGetter = useCallback(
+    (event: CalendarEvent) => {
+      const { bg, strip } =
+        categories[event.category] || { bg: "#f5f5f5", strip: "#757575" };
+
+      return {
+        style: {
+          backgroundColor: bg,
+          color: strip, // left strip color
+          border: "none",
+        },
+      };
+    },
+    []
+  );
 
   return (
-    <div
-      style={{
-        height: "90vh",
-        width: "90vw",
-        margin: "auto",
-        background: "white",
-        padding: "10px",
-        boxSizing: "border-box",
-      }}
-    >
-      <DnDCalendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: "100%", width: "100%", background: "white" }}
-        views={[Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA]}
-        view={view}
-        date={date}
-        onView={(newView: View) => setView(newView)}
-        onNavigate={(newDate) => setDate(newDate)}
-        onEventDrop={handleEventDrop}
-        onEventResize={handleEventResize}
-        resizable
-        selectable
-        onSelectSlot={handleSelectSlot}
-        step={15}
-        timeslots={4}
-        popup
-        draggableAccessor={() => true}
-        components={components}
-        messages={{
-          today: "Today",
-          previous: "Back",
-          next: "Next",
-        }}
-      />
+    <div className="calendar-container">
+      <div className="calendar-sidebar">
+        <h3>Filters</h3>
+        {Object.entries(categories).map(([cat, { strip }]) => (
+          <label key={cat} className="filter-option">
+            <input
+              type="checkbox"
+              checked={activeCategories.includes(cat)}
+              onChange={() => toggleCategory(cat)}
+            />
+            <span className="filter-color" style={{ background: strip }} />
+            {cat}
+          </label>
+        ))}
+      </div>
+
+      <div className="calendar-main">
+        <DnDCalendar
+          localizer={localizer}
+          events={filteredEvents}
+          startAccessor="start"
+          endAccessor="end"
+          view={view}
+          date={date}
+          onView={setView}
+          onNavigate={setDate}
+          eventPropGetter={eventStyleGetter}
+          resizable
+          selectable
+          draggableAccessor={() => true}
+          popup
+          onEventDrop={moveEvent}
+          onEventResize={resizeEvent}
+          style={{ height: "90vh", width: "100%" }}
+          messages={{
+            today: "Today",
+            previous: "Back",
+            next: "Next",
+          }}
+        />
+      </div>
     </div>
   );
 }

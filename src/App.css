@@ -1,85 +1,160 @@
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-#root {
+/* Container */
+.calendar-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  background: #f9f9f9;
+  font-family: Arial, sans-serif;
 }
 
-.calendar-wrapper {
-  width: 90vw;
-  height: 90vh;
+.calendar-sidebar {
+  width: 200px;
+  padding: 16px;
+  background: #fff;
+  border-right: 1px solid #ddd;
 }
 
-.rbc-calendar {
-  height: 100% !important;
-  width: 100% !important;
+.filter-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
-.rbc-day-bg:hover,
-.rbc-slot-selection {
-  background: none !important;
+.filter-color {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin: 0 6px;
+}
+
+.calendar-main {
+  flex: 1;
+  padding: 10px;
+  background: #fff;
+}
+
+/* Toolbar */
+.rbc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f1f1f1;
+  border-bottom: 1px solid #ddd;
 }
 
 .rbc-toolbar button {
-  border: 1px solid #ccc !important;
-  background: white;
-  color: black;
-  transition: all 0.3s ease;
+  background: #e0e0e0;
+  border: none;
   padding: 6px 12px;
   border-radius: 6px;
   margin: 0 2px;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.rbc-toolbar .rbc-btn-group:first-of-type button:nth-of-type(1) {
-  background-color: purple !important; /* Today */
-  color: white !important;
-}
-.rbc-toolbar .rbc-btn-group:first-of-type button:nth-of-type(2) {
-  background-color: green !important;  /* Back */
-  color: white !important;
-}
-.rbc-toolbar .rbc-btn-group:first-of-type button:nth-of-type(3) {
-  background-color: red !important;    /* Next */
-  color: white !important;
+.rbc-toolbar button:hover {
+  background: #d5d5d5;
 }
 
-.rbc-toolbar .rbc-btn-group:last-of-type button:nth-of-type(1) {
-  background-color: purple !important;   /* Month */
-  color: white !important;
-}
-.rbc-toolbar .rbc-btn-group:last-of-type button:nth-of-type(2) {
-  background-color: green !important; /* Week */
-  color: white !important;
-}
-.rbc-toolbar .rbc-btn-group:last-of-type button:nth-of-type(3) {
-  background-color: red !important; /* Day */
-  color: black !important;
-}
-.rbc-toolbar .rbc-btn-group:last-of-type button:nth-of-type(4) {
-  background-color: pink !important;   /* Agenda */
-  color: black !important;
+.rbc-toolbar button.rbc-active {
+  background: #9e9e9e !important;
+  color: #fff !important;
 }
 
-.rbc-toolbar button:hover,
-.rbc-toolbar button:focus {
-  opacity: 0.85;
+/* Calendar header */
+.rbc-header {
+  background: #fafafa;
+  border-bottom: 1px solid #ddd !important;
+  padding: 6px 0;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
+/* ------------------- */
+/* Week view / Time grid fixes */
+/* ------------------- */
+
+/* Remove default gaps in time view */
+.rbc-time-view {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.rbc-time-gutter {
+  padding: 0 !important;
+}
+
+/* Remove spacing between time slots */
+.rbc-time-slot {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-top: 1px solid #eee; /* optional thin line between slots */
+  position: relative;
+  height: 60px; /* adjust as needed */
+}
+
+/* Event styling */
 .rbc-event {
-  background-color: #4caf50 !important; /* green */
-  border: none !important;
-  color: white !important;
-  padding: 4px 6px;
+  margin: 0 !important;
+  padding-left: 12px !important; /* space for left strip */
+  padding-right: 6px !important;
   border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100% !important;
+  height: 100%;
 }
-.rbc-event:hover {
-  background-color: #388e3c !important;
+
+/* Left colored strip */
+.rbc-event::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background-color: currentColor;
+}
+
+/* Event content text padding */
+.rbc-event .rbc-event-content {
+  padding-left: 10px;
+  padding-right: 6px;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Week view specific: stretch event fully inside slot */
+.rbc-time-slot .rbc-event {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Colored strip inside week view events */
+.rbc-time-slot .rbc-event::before {
+  width: 6px;
+  height: 100%;
+  background-color: currentColor;
+}
+
+/* Event content in week view */
+.rbc-time-slot .rbc-event .rbc-event-content {
+  padding-left: 10px;
+  padding-right: 6px;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
