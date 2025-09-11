@@ -50,7 +50,7 @@ const initialEvents: CalendarEvent[] = [
 
   // Long day events
   { id: 7, title: "Breakfast Meeting", start: new Date(2025, 8, 8, 9), end: new Date(2025, 8, 8, 12), category: "Internal" },
-  { id: 8, title: "Lunch & Learn", start: new Date(2025, 8, 8, 12), end: new Date(2025, 8, 8, 14), category: "Client" },
+  { id: 8, title: "Lunch & Learn", start: new Date(2025, 8, 8, 11), end: new Date(2025, 8, 8, 14), category: "Client" },
   { id: 9, title: "Strategy Session", start: new Date(2025, 8, 8, 14), end: new Date(2025, 8, 8, 18), category: "Hotel" },
 
   // Multi-day events
