@@ -4,17 +4,21 @@
   <meta charset="utf-8">
   <title>Redirecting...</title>
   <script type="text/javascript">
-    // Get the current path (e.g., /React-big-calendar/login)
-    const path = window.location.pathname;
-
-    // Use replace() to remove the basename from the path and avoid a redirect loop
-    const newPath = path.replace('/React-big-calendar', '');
-
-    // Redirect to the root of the app, and the React Router will handle the rest
-    window.location.replace('/React-big-calendar' + newPath);
+    (function(){
+      // Get the current path (e.g., /React-big-calendar/register)
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      
+      // If the path has more than one segment, it's a sub-route
+      if (pathSegments.length > 1) {
+        // Construct the new URL to redirect to the correct SPA route
+        const redirectPath = '/React-big-calendar/' + pathSegments.slice(1).join('/');
+        window.location.replace(redirectPath);
+      }
+    })();
   </script>
 </head>
 <body>
-  <p>Redirecting...</p>
+  <p>Redirecting to the correct page...</p>
+  <a href="/React-big-calendar">Click here to go to the homepage.</a>
 </body>
 </html>
