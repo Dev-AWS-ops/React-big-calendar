@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Redirecting...</title>
-  <script type="text/javascript">
-    (function(){
-      // Get the current path (e.g., /React-big-calendar/register)
-      const pathSegments = window.location.pathname.split('/').filter(Boolean);
-      
-      // If the path has more than one segment, it's a sub-route
-      if (pathSegments.length > 1) {
-        // Construct the new URL to redirect to the correct SPA route
-        const redirectPath = '/React-big-calendar/' + pathSegments.slice(1).join('/');
-        window.location.replace(redirectPath);
-      }
-    })();
-  </script>
-</head>
-<body>
-  <p>Redirecting to the correct page...</p>
-  <a href="/React-big-calendar">Click here to go to the homepage.</a>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      (function() {
+        // Get the current URL path and query string
+        var redirect = window.location.pathname.replace("/React-big-calendar", "") + window.location.search + window.location.hash;
+        // Redirect to index.html while keeping the sub-route
+        window.location.replace("/React-big-calendar/index.html?redirect=" + encodeURIComponent(redirect));
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to the correct page...</p>
+    <a href="/React-big-calendar">Click here to go to the homepage.</a>
+  </body>
 </html>
