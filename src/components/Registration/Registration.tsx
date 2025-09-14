@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { Link } from "react-router-dom";
-import "./registration.css";
+import "./Registration.css";
 
 function Register() {
   const [email, setEmail] = useState("");
