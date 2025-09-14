@@ -1,0 +1,14 @@
+/* index.css */
+
+/* Global reset to remove default margins and paddings */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* This is the key to preventing horizontal overflow */
+}
