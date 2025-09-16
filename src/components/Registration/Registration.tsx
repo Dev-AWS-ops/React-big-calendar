@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { Link } from "react-router-dom";
 import "./Registration.css";
@@ -34,6 +34,17 @@ function Register() {
     }
   };
 
+  const handleFacebookRegister = async () => {
+    setMessage("");
+    try {
+      const provider = new FacebookAuthProvider();
+      await signInWithPopup(auth, provider);
+      setMessage("✅ Facebook registration successful!");
+    } catch (error: any) {
+      setMessage("❌ " + error.message);
+    }
+  };
+
   return (
     <div className="register-container">
       <div className="register-box">
@@ -62,7 +73,10 @@ function Register() {
         
         <div className="social-buttons">
           <button onClick={handleGoogleRegister} className="google-btn">
-                        Sign Up with Google
+            Sign Up with Google
+          </button>
+          <button onClick={handleFacebookRegister} className="facebook-btn">
+            Sign Up with Facebook
           </button>
         </div>
         

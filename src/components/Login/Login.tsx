@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { Link } from "react-router-dom";
 import "./Login.css";
@@ -35,6 +35,17 @@ function Login() {
     }
   };
 
+  const handleFacebookLogin = async () => {
+    setMessage("");
+    try {
+      const provider = new FacebookAuthProvider();
+      await signInWithPopup(auth, provider);
+      setMessage("✅ Facebook login successful!");
+    } catch (error: any) {
+      setMessage("❌ " + error.message);
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
@@ -63,10 +74,13 @@ function Login() {
         
         <div className="social-buttons">
           <button onClick={handleGoogleLogin} className="google-btn">
-            
             Log In with Google
           </button>
+          <button onClick={handleFacebookLogin} className="facebook-btn">
+            Log In with Facebook
+          </button>
         </div>
+
 
         {message && <p className={`message ${message.startsWith('❌') ? 'error' : ''}`}>{message}</p>}
 
