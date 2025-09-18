@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Register from "./components/Registration/Registration";
 import CustomCalendar from "./components/big-calendar/custom-calendar";
-import Dashboard from "./components/Dashboard/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard1";
 import "./App.css";
 
 function App() {
