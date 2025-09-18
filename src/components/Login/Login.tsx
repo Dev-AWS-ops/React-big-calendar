@@ -25,7 +25,7 @@ function Login() {
       // NOTE: Firebase signInWithEmailAndPassword doesn't natively handle 'Remember Me'.
       // For persistent sessions, you would use 'setPersistence' *before* signing in.
       // This is UI-only for this example.
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       
       // Removed email verification check to simplify the example. 
       // Re-add your verification logic as needed.
