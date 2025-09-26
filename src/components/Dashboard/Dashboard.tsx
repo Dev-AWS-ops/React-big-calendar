@@ -36,7 +36,7 @@ function Dashboard() {
       text: "Project Kickoff",
       start: new Date(2025, 8, 1),
       duration: 2,
-      type: "task",
+      type: "summary",
       progress: 0.1,
       open: true,
     },
@@ -46,9 +46,9 @@ function Dashboard() {
     {
       id: 4,
       text: "Planning Phase",
-      start: new Date(2025, 8, 5),
+      start: new Date(2025, 8, 6),
       duration: 4,
-      type: "task",
+      type: "milestone",
       progress: 0.2,
       open: true,
     },
@@ -123,6 +123,7 @@ function Dashboard() {
     { id: 4, source: 11, target: 12, type: "e2s" },
     { id: 5, source: 14, target: 15, type: "e2s" },
     { id: 6, source: 17, target: 18, type: "e2s" },
+    { id: 7, source: 3, target: 4, type: "e2s" },
   ]);
 
   const scales = [
@@ -141,30 +142,47 @@ function Dashboard() {
   return (
     <div className="dashboard-layout">
       {/* Sidebar */}
-      <div className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
-        <button
-          className="toggle-btn"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          {sidebarOpen ? "«" : "»"}
-        </button>
-        {sidebarOpen && user && (
-          <div className="sidebar-content">
-            <img
-              src={user.photoURL || "/image.png"}
-              alt="User Avatar"
-              className="avatar"
-            />
-            <h3>{user.displayName || user.email}</h3>
-            <p>{user.email}</p>
-            <button onClick={handleLogout} className="logout-btn">
-              Logout
-            </button>
-          </div>
-        )}
-      </div>
+   <div className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
+  <button
+    className="toggle-btn"
+    onClick={() => setSidebarOpen(!sidebarOpen)}
+  >
+    {sidebarOpen ? "«" : "»"}
+  </button>
 
-      {/* Main */}
+  {sidebarOpen && (
+    <div className="sidebar-content">
+      {/* Navigation Menu */}
+      <nav className="menu">
+        <h4 className="menu-title">My Profile </h4>
+        <ul>
+          <li>Menu 1 </li>
+          <li>Menu 2</li>
+          <li>Menu 3</li>
+          <li>Menu 4</li>
+          <li>Menu 5</li>
+           </ul>
+      </nav>
+
+      {/* User Info at Bottom */}
+      {user && (
+        <div className="user-info">
+          <img
+            src={user.photoURL || "/image.png"}
+            alt="User Avatar"
+            className="avatar"
+          />
+          <h3>{user.displayName || user.email}</h3>
+          <p>{user.email}</p>
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
+  )}
+</div>
+{/* Main */}
       <div className="main-container">
         <h2 className="gantt-title">Project Timeline</h2>
         <div className="gantt-wrapper">

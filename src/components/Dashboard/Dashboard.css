@@ -5,9 +5,14 @@
   overflow: hidden;
   background: #f0f2f5;
 }
-
+.main-container {
+  flex: 1; /* take remaining space */
+  padding: 1rem;
+  overflow: auto;
+}
 /* Sidebar */
 .sidebar {
+  width: 250px; 
   background: #1f2937;
   color: white;
   transition: width 0.3s ease-in-out;
@@ -38,51 +43,72 @@
   font-size: 16px;
   font-weight: bold;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 10;
 }
 
 /* Sidebar content */
 .sidebar-content {
-  padding: 60px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem 0;
+}
+
+/* Menu section */
+.menu {
+  flex: 1; /* 👈 makes sure menu grows */
+  color: #fff;
+  overflow-y: auto; /* scroll if too many items */
+  padding: 0 1rem;
+}
+
+.menu-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  color: #ccc;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.menu li:hover {
+  color: #4dabf7;
+}
+
+/* User info at bottom */
+.user-info {
+  padding: 1rem;
+  border-top: 1px solid #444;
   text-align: center;
 }
 
-.sidebar-content h3 {
-  margin: 0.5rem 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.sidebar-content p {
-  font-size: 14px;
-  color: #d1d5db;
-}
-
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  margin-bottom: 1rem;
-  border: 2px solid white;
+  margin-bottom: 0.5rem;
 }
 
-/* Main content */
-.main-container {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+.logout-btn {
+  margin-top: 0.5rem;
+  background: #ff4d4f;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.gantt-title {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #1f2937;
-}
-
-.gantt-wrapper {
-  height: calc(100vh - 80px);
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 10px;
+.logout-btn:hover {
+  background: #d9363e;
 }
