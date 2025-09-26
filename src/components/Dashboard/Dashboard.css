@@ -1,54 +1,88 @@
-.dashboard-container {
+/* Layout */
+.dashboard-layout {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #f0f2f5; /* Match login/register background */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  background: #f0f2f5;
 }
 
-.welcome-card {
-  background: #fff;
-  padding: 24px; /* Same as login/register box */
-  width: 400px;
-  max-width: 90%;
-  border-radius: 8px; /* Consistent with login/register */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* Sidebar */
+.sidebar {
+  background: #1f2937;
+  color: white;
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar.open {
+  width: 250px;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+/* Sidebar toggle button */
+.toggle-btn {
+  position: absolute;
+  top: 10px;
+  right: -15px;
+  background: #006400;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Sidebar content */
+.sidebar-content {
+  padding: 60px 20px 20px;
   text-align: center;
 }
 
+.sidebar-content h3 {
+  margin: 0.5rem 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.sidebar-content p {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   margin-bottom: 1rem;
+  border: 2px solid white;
 }
 
-.welcome-card h2 {
-  margin: 0.5rem 0;
-  color: #1f2937; /* Dark text like login/register */
-  font-size: 24px;
+/* Main content */
+.main-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.gantt-title {
+  font-size: 22px;
   font-weight: 600;
+  margin-bottom: 20px;
+  color: #1f2937;
 }
 
-.welcome-card p {
-  margin: 0.5rem 0 1rem 0;
-  font-size: 14px;
-  color: #6b7280; /* Gray subtitle text */
-}
-
-.logout-btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 4px; /* Match login/register buttons */
-  background: #006400; /* Dark green like Sign In button */
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: background 0.3s ease-in-out;
-}
-
-.logout-btn:hover {
-  background: #004d00; /* Darker green on hover */
+.gantt-wrapper {
+  height: calc(100vh - 80px);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 10px;
 }
