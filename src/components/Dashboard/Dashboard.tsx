@@ -5,12 +5,14 @@ import type { User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
-import { Gantt, Willow } from "wx-react-gantt";
-import "wx-react-gantt/dist/gantt.css";
+import { Gantt, Willow, WillowDark } from "wx-react-gantt";
+import "wx-react-gantt/dist/gantt.css";   
 
 function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeMenu, setActiveMenu] = useState("Menu 1");
+  const [theme, setTheme] = useState<"willow" | "dark">("willow");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +31,8 @@ function Dashboard() {
     navigate("/login");
   };
 
-  // ✅ Sample project with 10 main tasks, each with children
+  const menuItems = ["Dashboard", "Projects", "Tasks", "Reports", "Settings"];
+
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -139,59 +142,97 @@ function Dashboard() {
     setLinks(updatedLinks);
   };
 
+  const ThemeProvider = theme === "willow" ? Willow : WillowDark;
+
   return (
     <div className="dashboard-layout">
       {/* Sidebar */}
-   <div className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
-  <button
-    className="toggle-btn"
-    onClick={() => setSidebarOpen(!sidebarOpen)}
-  >
-    {sidebarOpen ? "«" : "»"}
-  </button>
+      <div className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
+        <button
+          className="toggle-btn"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+        >
+          {sidebarOpen ? "◀" : "▶"}
+        </button>
 
-  {sidebarOpen && (
-    <div className="sidebar-content">
-      {/* Navigation Menu */}
-      <nav className="menu">
-        <h4 className="menu-title">My Profile </h4>
-        <ul>
-          <li>Menu 1 </li>
-          <li>Menu 2</li>
-          <li>Menu 3</li>
-          <li>Menu 4</li>
-          <li>Menu 5</li>
-           </ul>
-      </nav>
+        {sidebarOpen && (
+          <div className="sidebar-content">
+            {/* Logo/Brand Section */}
+            <div className="sidebar-header">
+              <h2 className="brand-title">Project</h2>
+            </div>
 
-      {/* User Info at Bottom */}
-      {user && (
-        <div className="user-info">
-          <img
-            src={user.photoURL || "/image.png"}
-            alt="User Avatar"
-            className="avatar"
-          />
-          <h3>{user.displayName || user.email}</h3>
-          <p>{user.email}</p>
-          <button onClick={handleLogout} className="logout-btn">
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
-  )}
-</div>
-{/* Main */}
+            {/* Navigation Menu */}
+            <nav className="menu">
+              <h4 className="menu-title">Navigation</h4>
+              <ul>
+                {menuItems.map((item) => (
+                  <li
+                    key={item}
+                    className={activeMenu === item ? "active" : ""}
+                    onClick={() => setActiveMenu(item)}
+                  >
+                    <span className="menu-icon">●</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Theme Switcher */}
+            <div className="theme-switcher">
+              <button
+                className={`theme-btn ${theme === "willow" ? "active" : ""}`}
+                onClick={() => setTheme("willow")}
+              >
+                Willow
+              </button>
+              <button
+                className={`theme-btn ${theme === "dark" ? "active" : ""}`}
+                onClick={() => setTheme("dark")}
+              >
+                Dark
+              </button>
+            </div>
+
+            {/* User Info at Bottom */}
+            {user && (
+              <div className="user-info">
+                <img
+                  src={user.photoURL || "/image.png"}
+                  alt="User Avatar"
+                  className="avatar"
+                />
+                <div className="user-details">
+                  <h3>{user.displayName || "User"}</h3>
+                  <p>{user.email}</p>
+                </div>
+                <button onClick={handleLogout} className="logout-btn">
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Main Content */}
       <div className="main-container">
-        <h2 className="gantt-title">Project Timeline</h2>
+        <div className="header-section">
+          <h2 className="gantt-title">Project Dashboard</h2>
+          <div className="header-info">
+            <span className="theme-indicator">Theme: {theme === "willow" ? "Willow" : "Dark"}</span>
+          </div>
+        </div>
         <div className="gantt-wrapper">
-          <Willow>
+          <ThemeProvider key={theme}>
             <Gantt
               tasks={tasks}
               links={links}
               scales={scales}
-              autoSchedule  
+              skin={theme}
+              autoSchedule
               editable
               dragMove
               dragResize
@@ -201,7 +242,7 @@ function Dashboard() {
               onTasksChange={handleTaskChange}
               onLinksChange={handleLinkChange}
             />
-          </Willow>
+          </ThemeProvider>
         </div>
       </div>
     </div>
