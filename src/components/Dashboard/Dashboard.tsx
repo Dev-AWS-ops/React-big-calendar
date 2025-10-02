@@ -226,24 +226,45 @@ function Dashboard() {
           </div>
         </div>
         <div className="gantt-wrapper">
-          <ThemeProvider key={theme}>
-            <Gantt
-              tasks={tasks}
-              links={links}
-              scales={scales}
-              skin={theme}
-              autoSchedule
-              editable
-              dragMove
-              dragResize
-              showLinks
-              showToday
-              showTaskEditor
-              onTasksChange={handleTaskChange}
-              onLinksChange={handleLinkChange}
-            />
-          </ThemeProvider>
-        </div>
+  {theme === "willow" ? (
+    <Willow key="willow">
+      <Gantt
+        key="gantt-willow"
+        tasks={tasks}
+        links={links}
+        scales={scales}
+        autoSchedule
+        editable
+        dragMove
+        dragResize
+        showLinks
+        showToday
+        showTaskEditor
+        onTasksChange={handleTaskChange}
+        onLinksChange={handleLinkChange}
+      />
+    </Willow>
+  ) : (
+    <WillowDark key="dark">
+      <Gantt
+        key="gantt-dark"
+        tasks={tasks}
+        links={links}
+        scales={scales}
+        autoSchedule
+        editable
+        dragMove
+        dragResize
+        showLinks
+        showToday
+        showTaskEditor
+        onTasksChange={handleTaskChange}
+        onLinksChange={handleLinkChange}
+      />
+    </WillowDark>
+  )}
+</div>
+
       </div>
     </div>
   );
