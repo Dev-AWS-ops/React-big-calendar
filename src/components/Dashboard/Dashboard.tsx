@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 import { Gantt, Willow, WillowDark } from "wx-react-gantt";
-import "wx-react-gantt/dist/gantt.css";   
+import "wx-react-gantt/dist/gantt.css";
+
+import Matematuk from "../Matematuk Gannt/Matematuk"; 
 
 function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState("Menu 1");
+  const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [theme, setTheme] = useState<"willow" | "dark">("willow");
   const navigate = useNavigate();
 
@@ -31,90 +33,28 @@ function Dashboard() {
     navigate("/login");
   };
 
-  const menuItems = ["Dashboard", "Projects", "Tasks", "Reports", "Settings"];
+  const menuItems = ["Dashboard", "Matematuk Gannt Chart", "Tasks", "Reports", "Settings"];
 
   const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "Project Kickoff",
-      start: new Date(2025, 8, 1),
-      duration: 2,
-      type: "summary",
-      progress: 0.1,
-      open: true,
-    },
+    { id: 1, text: "Project Kickoff", start: new Date(2025, 8, 1), duration: 2, type: "summary", progress: 0.1, open: true },
     { id: 2, text: "Requirement Gathering", start: new Date(2025, 8, 2), duration: 3, parent: 1, progress: 0.3, type: "task" },
     { id: 3, text: "Feasibility Study", start: new Date(2025, 8, 4), duration: 2, parent: 1, progress: 0.2, type: "task" },
-
-    {
-      id: 4,
-      text: "Planning Phase",
-      start: new Date(2025, 8, 6),
-      duration: 4,
-      type: "milestone",
-      progress: 0.2,
-      open: true,
-    },
+    { id: 4, text: "Planning Phase", start: new Date(2025, 8, 6), duration: 4, type: "milestone", progress: 0.2, open: true },
     { id: 5, text: "Project Plan", start: new Date(2025, 8, 6), duration: 2, parent: 4, progress: 0.5, type: "task" },
     { id: 6, text: "Resource Allocation", start: new Date(2025, 8, 7), duration: 3, parent: 4, progress: 0.2, type: "task" },
-
-    {
-      id: 7,
-      text: "Design Phase",
-      start: new Date(2025, 8, 10),
-      duration: 5,
-      type: "task",
-      progress: 0.1,
-      open: true,
-    },
+    { id: 7, text: "Design Phase", start: new Date(2025, 8, 10), duration: 5, type: "task", progress: 0.1, open: true },
     { id: 8, text: "UI/UX Design", start: new Date(2025, 8, 10), duration: 3, parent: 7, progress: 0.4, type: "task" },
     { id: 9, text: "Architecture Design", start: new Date(2025, 8, 12), duration: 4, parent: 7, progress: 0.2, type: "task" },
-
-    {
-      id: 10,
-      text: "Development Phase",
-      start: new Date(2025, 8, 15),
-      duration: 15,
-      type: "task",
-      progress: 0.05,
-      open: true,
-    },
+    { id: 10, text: "Development Phase", start: new Date(2025, 8, 15), duration: 15, type: "task", progress: 0.05, open: true },
     { id: 11, text: "Frontend Development", start: new Date(2025, 8, 15), duration: 10, parent: 10, progress: 0.2, type: "task" },
     { id: 12, text: "Backend Development", start: new Date(2025, 8, 17), duration: 12, parent: 10, progress: 0.15, type: "task" },
-
-    {
-      id: 13,
-      text: "Testing Phase",
-      start: new Date(2025, 8, 30),
-      duration: 7,
-      type: "task",
-      progress: 0,
-      open: true,
-    },
+    { id: 13, text: "Testing Phase", start: new Date(2025, 8, 30), duration: 7, type: "task", progress: 0, open: true },
     { id: 14, text: "Unit Testing", start: new Date(2025, 8, 30), duration: 3, parent: 13, progress: 0, type: "task" },
     { id: 15, text: "Integration Testing", start: new Date(2025, 9, 2), duration: 4, parent: 13, progress: 0, type: "task" },
-
-    {
-      id: 16,
-      text: "Deployment",
-      start: new Date(2025, 9, 5),
-      duration: 2,
-      type: "task",
-      progress: 0,
-      open: true,
-    },
+    { id: 16, text: "Deployment", start: new Date(2025, 9, 5), duration: 2, type: "task", progress: 0, open: true },
     { id: 17, text: "Staging Deployment", start: new Date(2025, 9, 5), duration: 1, parent: 16, progress: 0, type: "task" },
     { id: 18, text: "Production Deployment", start: new Date(2025, 9, 6), duration: 1, parent: 16, progress: 0, type: "task" },
-
-    {
-      id: 19,
-      text: "Maintenance & Support",
-      start: new Date(2025, 9, 7),
-      duration: 10,
-      type: "task",
-      progress: 0,
-      open: true,
-    },
+    { id: 19, text: "Maintenance & Support", start: new Date(2025, 9, 7), duration: 10, type: "task", progress: 0, open: true },
     { id: 20, text: "Bug Fixing", start: new Date(2025, 9, 7), duration: 5, parent: 19, progress: 0, type: "task" },
     { id: 21, text: "Performance Monitoring", start: new Date(2025, 9, 8), duration: 7, parent: 19, progress: 0, type: "task" },
   ]);
@@ -142,11 +82,8 @@ function Dashboard() {
     setLinks(updatedLinks);
   };
 
-  const ThemeProvider = theme === "willow" ? Willow : WillowDark;
-
   return (
     <div className="dashboard-layout">
-      {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
         <button
           className="toggle-btn"
@@ -158,12 +95,10 @@ function Dashboard() {
 
         {sidebarOpen && (
           <div className="sidebar-content">
-            {/* Logo/Brand Section */}
             <div className="sidebar-header">
               <h2 className="brand-title">Project</h2>
             </div>
 
-            {/* Navigation Menu */}
             <nav className="menu">
               <h4 className="menu-title">Navigation</h4>
               <ul>
@@ -180,7 +115,6 @@ function Dashboard() {
               </ul>
             </nav>
 
-            {/* Theme Switcher */}
             <div className="theme-switcher">
               <button
                 className={`theme-btn ${theme === "willow" ? "active" : ""}`}
@@ -196,14 +130,9 @@ function Dashboard() {
               </button>
             </div>
 
-            {/* User Info at Bottom */}
             {user && (
               <div className="user-info">
-                <img
-                  src={user.photoURL || "/image.png"}
-                  alt="User Avatar"
-                  className="avatar"
-                />
+                <img src={user.photoURL || "/image.png"} alt="User Avatar" className="avatar" />
                 <div className="user-details">
                   <h3>{user.displayName || "User"}</h3>
                   <p>{user.email}</p>
@@ -217,54 +146,69 @@ function Dashboard() {
         )}
       </div>
 
-      {/* Main Content */}
       <div className="main-container">
         <div className="header-section">
-          <h2 className="gantt-title">Project Dashboard</h2>
+          <h2 className="gantt-title">{activeMenu}</h2>
           <div className="header-info">
             <span className="theme-indicator">Theme: {theme === "willow" ? "Willow" : "Dark"}</span>
           </div>
         </div>
-        <div className="gantt-wrapper">
-  {theme === "willow" ? (
-    <Willow key="willow">
-      <Gantt
-        key="gantt-willow"
-        tasks={tasks}
-        links={links}
-        scales={scales}
-        autoSchedule
-        editable
-        dragMove
-        dragResize
-        showLinks
-        showToday
-        showTaskEditor
-        onTasksChange={handleTaskChange}
-        onLinksChange={handleLinkChange}
-      />
-    </Willow>
-  ) : (
-    <WillowDark key="dark">
-      <Gantt
-        key="gantt-dark"
-        tasks={tasks}
-        links={links}
-        scales={scales}
-        autoSchedule
-        editable
-        dragMove
-        dragResize
-        showLinks
-        showToday
-        showTaskEditor
-        onTasksChange={handleTaskChange}
-        onLinksChange={handleLinkChange}
-      />
-    </WillowDark>
-  )}
-</div>
 
+        <div className="main-content">
+          {activeMenu === "Dashboard" && (
+            <div className="gantt-wrapper">
+              {theme === "willow" ? (
+                <Willow key="willow">
+                  <Gantt
+                    key="gantt-willow"
+                    tasks={tasks}
+                    links={links}
+                    scales={scales}
+                    autoSchedule
+                    editable
+                    dragMove
+                    dragResize
+                    showLinks
+                    showToday
+                    showTaskEditor
+                    onTasksChange={handleTaskChange}
+                    onLinksChange={handleLinkChange}
+                  />
+                </Willow>
+              ) : (
+                <WillowDark key="dark">
+                  <Gantt
+                    key="gantt-dark"
+                    tasks={tasks}
+                    links={links}
+                    scales={scales}
+                    autoSchedule
+                    editable
+                    dragMove
+                    dragResize
+                    showLinks
+                    showToday
+                    showTaskEditor
+                    onTasksChange={handleTaskChange}
+                    onLinksChange={handleLinkChange}
+                  />
+                </WillowDark>
+              )}
+            </div>
+          )}
+
+          {activeMenu === "Matematuk Gannt Chart" && (
+            <div className="matematuk-wrapper">
+              <Matematuk />
+            </div>
+          )}
+
+          {["Tasks", "Reports", "Settings"].includes(activeMenu) && (
+            <div className="placeholder">
+              <p>{activeMenu} content coming soon...</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
