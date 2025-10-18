@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
+// Dashboard.tsx
+import React, { useEffect, useState, lazy, Suspense } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import type { User } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
 
 import { Gantt, Willow, WillowDark } from "wx-react-gantt";
 import "wx-react-gantt/dist/gantt.css";
+import "./Dashboard.css";
 
-import Matematuk from "../Matematuk Gannt/Matematuk"; 
+// Lazy-loaded components
+const Dhx = lazy(() => import("../Dhx/Dhx"));
+const Matematuk = lazy(() => import("../Matematuk Gannt/Matematuk"));
 
-function Dashboard() {
+const Dashboard: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState("Dashboard");
   const [theme, setTheme] = useState<"willow" | "dark">("willow");
   const navigate = useNavigate();
 
+  // Authentication check
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -33,8 +37,16 @@ function Dashboard() {
     navigate("/login");
   };
 
-  const menuItems = ["Dashboard", "Matematuk Gannt Chart", "Tasks", "Reports", "Settings"];
+  const menuItems = [
+    "Dashboard",
+    "DHX Gannt Chart",
+    "Matematuk Gannt Chart",
+    "Tasks",
+    "Reports",
+    "Settings",
+  ];
 
+  // Sample Gantt tasks
   const [tasks, setTasks] = useState([
     { id: 1, text: "Project Kickoff", start: new Date(2025, 8, 1), duration: 2, type: "summary", progress: 0.1, open: true },
     { id: 2, text: "Requirement Gathering", start: new Date(2025, 8, 2), duration: 3, parent: 1, progress: 0.3, type: "task" },
@@ -74,16 +86,12 @@ function Dashboard() {
     { unit: "day", step: 1, format: "d" },
   ];
 
-  const handleTaskChange = (updatedTasks: any[]) => {
-    setTasks(updatedTasks);
-  };
-
-  const handleLinkChange = (updatedLinks: any[]) => {
-    setLinks(updatedLinks);
-  };
+  const handleTaskChange = (updatedTasks: any[]) => setTasks(updatedTasks);
+  const handleLinkChange = (updatedLinks: any[]) => setLinks(updatedLinks);
 
   return (
     <div className="dashboard-layout">
+      {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
         <button
           className="toggle-btn"
@@ -106,7 +114,12 @@ function Dashboard() {
                   <li
                     key={item}
                     className={activeMenu === item ? "active" : ""}
-                    onClick={() => setActiveMenu(item)}
+                    onClick={() => {
+                      setActiveMenu(item);
+                      if (item === "DHX Gannt Chart") navigate("/dashboard/dhx");
+                      else if (item === "Matematuk Gannt Chart") navigate("/dashboard/matematuk");
+                      else navigate("/dashboard");
+                    }}
                   >
                     <span className="menu-icon">●</span>
                     {item}
@@ -146,72 +159,68 @@ function Dashboard() {
         )}
       </div>
 
+      {/* Main Container */}
       <div className="main-container">
         <div className="header-section">
           <h2 className="gantt-title">{activeMenu}</h2>
           <div className="header-info">
-            <span className="theme-indicator">Theme: {theme === "willow" ? "Willow" : "Dark"}</span>
+            <span className="theme-indicator">
+              Theme: {theme === "willow" ? "Willow" : "Dark"}
+            </span>
           </div>
         </div>
 
         <div className="main-content">
-          {activeMenu === "Dashboard" && (
-            <div className="gantt-wrapper">
-              {theme === "willow" ? (
-                <Willow key="willow">
-                  <Gantt
-                    key="gantt-willow"
-                    tasks={tasks}
-                    links={links}
-                    scales={scales}
-                    autoSchedule
-                    editable
-                    dragMove
-                    dragResize
-                    showLinks
-                    showToday
-                    showTaskEditor
-                    onTasksChange={handleTaskChange}
-                    onLinksChange={handleLinkChange}
-                  />
-                </Willow>
-              ) : (
-                <WillowDark key="dark">
-                  <Gantt
-                    key="gantt-dark"
-                    tasks={tasks}
-                    links={links}
-                    scales={scales}
-                    autoSchedule
-                    editable
-                    dragMove
-                    dragResize
-                    showLinks
-                    showToday
-                    showTaskEditor
-                    onTasksChange={handleTaskChange}
-                    onLinksChange={handleLinkChange}
-                  />
-                </WillowDark>
-              )}
-            </div>
-          )}
+          <Suspense fallback={<div>Loading...</div>}>
+            {activeMenu === "Dashboard" && (
+              <div className="gantt-wrapper">
+                {theme === "willow" ? (
+                  <Willow key="willow">
+                    <Gantt
+                      key="gantt-willow"
+                      tasks={tasks}
+                      links={links}
+                      scales={scales}
+                      autoSchedule
+                      editable
+                      dragMove
+                      dragResize
+                      showLinks
+                      showToday
+                      showTaskEditor
+                      onTasksChange={handleTaskChange}
+                      onLinksChange={handleLinkChange}
+                    />
+                  </Willow>
+                ) : (
+                  <WillowDark key="dark">
+                    <Gantt
+                      key="gantt-dark"
+                      tasks={tasks}
+                      links={links}
+                      scales={scales}
+                      autoSchedule
+                      editable
+                      dragMove
+                      dragResize
+                      showLinks
+                      showToday
+                      showTaskEditor
+                      onTasksChange={handleTaskChange}
+                      onLinksChange={handleLinkChange}
+                    />
+                  </WillowDark>
+                )}
+              </div>
+            )}
 
-          {activeMenu === "Matematuk Gannt Chart" && (
-            <div className="matematuk-wrapper">
-              <Matematuk />
-            </div>
-          )}
-
-          {["Tasks", "Reports", "Settings"].includes(activeMenu) && (
-            <div className="placeholder">
-              <p>{activeMenu} content coming soon...</p>
-            </div>
-          )}
+            {/* Nested routes render here */}
+            <Outlet />
+          </Suspense>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

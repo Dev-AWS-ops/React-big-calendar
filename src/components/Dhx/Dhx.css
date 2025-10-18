@@ -1,0 +1,97 @@
+/* src/components/Dhx/Dhx.css */
+
+/* Gantt chart container, ensuring full height and width */
+.dhx-gantt-container {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  background-color: #ffffff; /* White background */
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+/* Grid and header styling */
+.gantt_grid {
+  background-color: #f8f8f8; /* Light grid background */
+}
+
+.gantt_grid_head_cell,
+.gantt_grid_data .gantt_cell {
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+  padding: 5px;
+  font-size: 13px;
+}
+
+/* Task bars customization */
+.gantt_task_cell .gantt_task_content {
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  color: white;
+}
+
+.gantt_task_row .gantt_task_content {
+  background-color: #4caf50; /* Default green task bars */
+  border-color: #388e3c;
+}
+
+.gantt_task_row .gantt_task_content.gantt_selected {
+  background-color: #43a047; /* Darker green when selected */
+  border-color: #2e7d32;
+}
+
+/* Customize task labels */
+.gantt_task_text {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Links between tasks (dependencies) */
+.gantt_link {
+  stroke: #888888;
+  stroke-width: 2px;
+}
+
+/* Today line styling */
+.gantt_today {
+  background-color: rgba(255, 0, 0, 0.2); /* Light red line for today's date */
+}
+
+/* Scrollbars and overflow for Gantt grid and data */
+.gantt_data_area,
+.gantt_grid_data {
+  overflow: auto !important;
+}
+
+/* Button style for actions like export or fullscreen */
+.gantt_toolbar_button {
+  background-color: #008cba;
+  color: white;
+  padding: 8px 12px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.gantt_toolbar_button:hover {
+  background-color: #007bb5;
+}
+
+/* Row height and text padding */
+.gantt_task_row {
+  height: 40px;
+}
+
+.gantt_task_text {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Task labels and progress bars */
+.gantt_task_content {
+  background-color: #4caf50;
+}
