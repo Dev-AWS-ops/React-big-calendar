@@ -1,97 +1,85 @@
-/* src/components/Dhx/Dhx.css */
+/* Custom styles to mimic the reference chart */
 
-/* Gantt chart container, ensuring full height and width */
 .dhx-gantt-container {
-  width: 100%;
-  height: 100vh; /* Full viewport height */
-  background-color: #ffffff; /* White background */
-  box-sizing: border-box;
-  padding: 15px;
+    width: 100%;
+    height: 900px; /* Adjust height as needed */
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
 }
 
-/* Grid and header styling */
-.gantt_grid {
-  background-color: #f8f8f8; /* Light grid background */
+/* General Gantt styling for a cleaner look */
+.gantt_container {
+    background-color: #f7f7f7; /* Light gray background */
 }
 
-.gantt_grid_head_cell,
-.gantt_grid_data .gantt_cell {
-  border-right: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: center;
-  padding: 5px;
-  font-size: 13px;
+/* Adjust the height and appearance of the grid rows */
+.gantt_row {
+    line-height: 35px; /* Matches gantt.config.row_height */
+    height: 35px;
+    border-bottom: 1px solid #ededed;
 }
 
-/* Task bars customization */
-.gantt_task_cell .gantt_task_content {
-  border-radius: 5px;
-  font-size: 14px;
-  text-align: center;
-  color: white;
+.gantt_grid_head_cell {
+    font-weight: bold;
+    color: #444;
 }
 
-.gantt_task_row .gantt_task_content {
-  background-color: #4caf50; /* Default green task bars */
-  border-color: #388e3c;
+/* Scale styling for Year/Month to match the reference */
+.gantt_scale_line {
+    border-bottom: 1px solid #ccc;
+    height: 35px;
 }
 
-.gantt_task_row .gantt_task_content.gantt_selected {
-  background-color: #43a047; /* Darker green when selected */
-  border-color: #2e7d32;
+.gantt_scale_cell {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
 }
 
-/* Customize task labels */
-.gantt_task_text {
-  padding-left: 10px;
-  padding-right: 10px;
+/* Year scale styling (optional, based on config) */
+.gantt_scale_header_year {
+    text-align: left;
+    padding-left: 10px;
+    font-size: 16px;
+    color: #000;
 }
 
-/* Links between tasks (dependencies) */
-.gantt_link {
-  stroke: #888888;
-  stroke-width: 2px;
+/* Task bar colors and style */
+.gantt_task_line {
+    border-radius: 4px; /* Slightly rounded corners */
 }
 
-/* Today line styling */
-.gantt_today {
-  background-color: rgba(255, 0, 0, 0.2); /* Light red line for today's date */
+/* Default task color (light blue/cyan) */
+.gantt_task_line {
+    background-color: #5bc0de; /* Default task color */
+    border: 1px solid #46b8da;
 }
 
-/* Scrollbars and overflow for Gantt grid and data */
-.gantt_data_area,
-.gantt_grid_data {
-  overflow: auto !important;
+/* Project (Summary) task color (dark green) */
+.gantt_project {
+    background-color: #5cb85c !important; /* Green for Project Summary Tasks */
+    border: 1px solid #4cae4c !important;
 }
 
-/* Button style for actions like export or fullscreen */
-.gantt_toolbar_button {
-  background-color: #008cba;
-  color: white;
-  padding: 8px 12px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+/* Milestone task style (circle, not a bar) */
+.gantt_milestone {
+    background-color: #999 !important; /* Gray for milestones */
+    border: 1px solid #888 !important;
 }
 
-.gantt_toolbar_button:hover {
-  background-color: #007bb5;
+/* Make Project task text bold in the grid */
+.gantt_project .gantt_cell_tree {
+    font-weight: bold;
 }
 
-/* Row height and text padding */
-.gantt_task_row {
-  height: 40px;
+/* Specific custom colors for certain tasks to match the reference (e.g., Joplin's house tender is orange/yellow) */
+/* You would need to add a custom CSS class to the data to make this work exactly. 
+   Example of how to apply custom class:
+   { id: 1.21, text: "Tender", ..., parent: 1.2, type: gantt.config.types.project, render: "tender_task" }
+*/
+/*
+.gantt_task_row.tender_task .gantt_task_line {
+    background-color: #f0ad4e;
+    border: 1px solid #eea236;
 }
-
-.gantt_task_text {
-  padding-left: 10px;
-  padding-right: 10px;
-  text-align: left;
-  font-size: 14px;
-}
-
-/* Task labels and progress bars */
-.gantt_task_content {
-  background-color: #4caf50;
-}
+*/

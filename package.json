@@ -17,6 +17,7 @@
     "dhtmlx-gantt": "^9.0.15",
     "firebase": "^12.2.1",
     "gantt-task-react": "^0.3.9",
+    "material-design-icons-iconfont": "^6.7.0",
     "react": "^18.3.1",
     "react-big-calendar": "^1.19.4",
     "react-dom": "^18.3.1",
